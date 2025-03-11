@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaflet</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!-- Load Leaflet: http://leafletjs.com/ -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+
+        <!-- https://github.com/StephSaephan/leaflet-map-example -->
+        <script src="resources/js/leaflet-providers.js" type="text/javascript"></script>
+
+        <!-- https://github.com/ismyrnow/leaflet-groupedlayercontrol -->
+        <link rel="stylesheet" href="resources/css/leaflet.groupedlayercontrol.css">
+        <script src="resources/js/leaflet.groupedlayercontrol.js" type="text/javascript"></script>
+
+        <!-- https://github.com/lvoogdt/Leaflet.awesome-markers -->
+        <link rel="stylesheet" href="resources/css/leaflet.awesome-markers.css">
+        <script src="resources/js/leaflet.awesome-markers.js"></script>
+
+        <!-- fontawesome, jquery and bootstrap -->
+        <link href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" rel="stylesheet" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+        <style>
+            body {
+                padding: 0;
+                margin: 0;
+            }
+            html,
+            body,
+            #mapid {
+                height: 100%;
+                width: 100%;
+            }
+            .font-size-title {
+                font-size: 15px;
+                font-weight: bold;
+            }
+            .font-size-body {
+                font-size: 12px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="mapid"></div>
+
+        <script>
+            const mymap = L.map('mapid').setView([-20.5085, -29.3223], 15);
+            //mymap.zoomControl.setPosition('bottomright');
+
+            const width_ = 23;
+            const height_ = 23;
+            const _icon = L.icon({
+                iconUrl: 'resources/image/pointer01.png',
+                iconSize: [width_, height_],
+                iconAnchor: [width_/2, height_/2],
+            });
+
+            var locations = [
+                [-20.519401, -29.336891, '<b>Sample</b>: FAR_Island (C1, C2, C3)<br><b>Author</b>: Meirelles et al., 2015<br><b>Biome</b>: Coral<br><b>Depth</b>: 22 m<br><b>Altitude</b>: -', 'Coral'],
+                [-20.493, -29.345, '<b>Sample</b>: NOR_Island (C1, C2, C3)<br><b>Author</b>: Meirelles et al., 2015<br><b>Biome</b>: Coral<br><b>Depth</b>: 15 m<br><b>Altitude</b>: -', 'Coral'],
+                [-20.4929, -29.34515, '<b>Sample</b>: NOR_Island (W1, W2)<br><b>Author</b>: Meirelles et al., 2015<br><b>Biome</b>: Water<br><b>Depth</b>: 15 m<br><b>Altitude</b>: -', 'Water'],
+                [-20.526, -29.31035, '<b>Sample</b>: PRI_Island (W1, W3)<br><b>Author</b>: Meirelles et al., 2015<br><b>Biome</b>: Water<br><b>Depth</b>: 20/22 m<br><b>Altitude</b>: -', 'Water'],
+                [-20.504, -29.31036, '<b>Sample</b>: SAN_Island (W1, W2)<br><b>Author</b>: Meirelles et al., 2015<br><b>Biome</b>: Water<br><b>Depth</b>: 50 m<br><b>Altitude</b>: -', 'Water'],
+                [-20.512172, -29.325494, '<b>Sample</b>: PD5<br><b>Author</b>: Câmara et al., 2023; Câmara et al., 2022<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: 552 m', 'Soil'],
+                [-20.511714, -29.325306, '<b>Sample</b>: PD6<br><b>Author</b>: Câmara et al., 2023; Câmara et al., 2022<br><b>Biome</b>: Soil<br><b>Depth</b>: 5 cm<br><b>Altitude</b>: 568 m', 'Soil'],
+                [-20.5102, -29.327728, '<b>Sample</b>: PF7<br><b>Author</b>: Câmara et al., 2023; Câmara et al., 2022<br><b>Biome</b>: Soil<br><b>Depth</b>: 25 cm<br><b>Altitude</b>: 484 m', 'Soil'],
+                [-20.513581, -29.303316, '<b>Sample</b>: Water sample<br><b>Author</b>: Rodrigues et al., 2018<br><b>Biome</b>: Water<br><b>Depth</b>: -<br><b>Altitude</b>: -', 'Water'],
+                [-20.495972, -29.328944, '<b>Sample</b>: Soil sample<br><b>Author</b>: Morais et al., 2016<br><b>Biome</b>: Soil<br><b>Depth</b>: 0-10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.516058, -29.302543, '<b>Sample</b>: Water sample<br><b>Author</b>: Rodrigues et al., 2015<br><b>Biome</b>: Water<br><b>Depth</b>: 30 cm<br><b>Altitude</b>: -', 'Water'],
+                [-20.518644, -29.303741, '<b>Sample</b>: P01<br><b>Author</b>: da Silva et al., 2015<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.510659, -29.308482, '<b>Sample</b>: P02<br><b>Author</b>: da Silva et al., 2015<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.508782, -29.310483, '<b>Sample</b>: P03<br><b>Author</b>: da Silva et al., 2015<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.504498, -29.320159, '<b>Sample</b>: P05<br><b>Author</b>: da Silva et al., 2015<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.515084, -29.315806, '<b>Sample</b>: P06<br><b>Author</b>: da Silva et al., 2015<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.514623, -29.314571, '<b>Sample</b>: P07<br><b>Author</b>: da Silva et al., 2015<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.516491, -29.321438, '<b>Sample</b>: P08<br><b>Author</b>: da Silva et al., 2015<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.501722, -29.335603, '<b>Sample</b>: P10<br><b>Author</b>: da Silva et al., 2015<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.513988, -29.322501, '<b>Sample</b>: P12<br><b>Author</b>: da Silva et al., 2015<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.501489, -29.322561, '<b>Sample</b>: P04<br><b>Author</b>: da Silva et al., 2015; Pylro et al., 2014<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.51686, -29.323424, '<b>Sample</b>: P09<br><b>Author</b>: da Silva et al., 2015; Pylro et al., 2014<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+                [-20.49811, -29.335237, '<b>Sample</b>: P11<br><b>Author</b>: da Silva et al., 2015; Pylro et al., 2014<br><b>Biome</b>: Soil<br><b>Depth</b>: 10 cm<br><b>Altitude</b>: -', 'Soil'],
+            ];
+
+            const marker_icon_water = L.AwesomeMarkers.icon({icon: 'tint', prefix: 'fa', markerColor: 'blue'}); //, spin: true
+            const marker_icon_soil = L.AwesomeMarkers.icon({icon: 'leaf', prefix: 'fa', markerColor: 'green'});
+            const marker_icon_coral = L.AwesomeMarkers.icon({icon: 'fire', prefix: 'fa', markerColor: 'red'});
+
+            for (var i = 0; i < locations.length; i++) {
+                if (locations[i][3] == 'Water') {
+                    marker_icon = marker_icon_water;
+                }
+                if (locations[i][3] == 'Soil') {
+                    marker_icon = marker_icon_soil;
+                }
+                if (locations[i][3] == 'Coral') {
+                    marker_icon = marker_icon_coral;
+                }
+
+                marker = new L.marker([locations[i][0], locations[i][1]], { icon: marker_icon })
+                                .bindPopup(locations[i][2])
+                                .addTo(mymap);
+            }
+
+            //L.marker([-12.04318, -77.02824]).bindPopup('Lima').addTo(mymap);
+            //L.marker([-12.04318, -77.02824], {icon: L.AwesomeMarkers.icon({icon: 'dna', prefix: 'fa', markerColor: 'red'})}).addTo(mymap);
+
+            // https://leaflet-extras.github.io/leaflet-providers/preview
+            const tile_OSM_mapnik = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+            const tile_OSM_hot = 'https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png';
+
+            const attribution = '&copy; <a href="https://openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+            const tiles = L.tileLayer(tile_OSM_mapnik, { attribution });
+            tiles.addTo(mymap);
+
+            //var defaultBase = L.tileLayer.provider('Stamen.TonerLite').addTo(mymap);
+            const baseLayers = {
+                'OSM.Mapnik': tiles,
+                //'OSM.Mapnik': L.tileLayer(tile_OSM_mapnik, { attribution }),
+                'OSM.Hot': L.tileLayer(tile_OSM_hot, { attribution }),
+                'OSM.Topo': L.tileLayer.provider('OpenTopoMap'),
+            };
+
+            // add layer switch control
+            L.control.groupedLayers(baseLayers).addTo(mymap);
+
+            // add scale bar to map
+            L.control.scale({ position: 'bottomleft' }).addTo(mymap);
+        </script>
+    </body>
+</html>
